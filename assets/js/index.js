@@ -64,8 +64,34 @@ function construyendoCard(propiedad) {
 }
 function filtrarPropiedades() {
   const cantidadCuartos = document.querySelector("#cantidadCuartos").value;
+  const metrosDesde = document.querySelector("#desde").value;
+  const metrosHasta = document.querySelector("#hasta").value;
+  
+  if (cantidadCuartos == "" || metrosDesde == "" || metrosHasta == "") {
+    alert("Debe enviar todos los datos");
+  } else {
+    let htmlTarjetasFiltradas = "";
+    let cantidadInmuebles = 0;
+    for (let objeto of propiedadesJSON) {
+      if (
+        cantidadCuartos == objeto.rooms && //Condicion de cuartos // Y
+        objeto.m >= metrosDesde &&
+        objeto.m <= metrosHasta // condicion de metros
+      ) {
+        htmlTarjetasFiltradas += construyendoCard(objeto); 
+        cantidadInmuebles++;
+      }
+    }
+
+    //Seleccionamos el elemento
+    const PropiedadesDiv = document.querySelector(".propiedades");
+    const totalElementos = document.querySelector("#totalElementos");
+    //Dibujamos el html
+    propiedadesDiv.innerHTML = htmlTarjetasFiltradas;
+    totalElementos.innerHTML = cantidadInmuebles;
+    console.log("Filtrando...");
+  }
 }
-function filtrarPropiedades(cantidadCuartos, metrosDesde, metrosHasta) {}
 /* Programa principal que se ejecuta al carga la pagina */
 let textoDelDiv = "";
 for (const propiedad of propiedadesJSON) {
@@ -75,4 +101,4 @@ for (const propiedad of propiedadesJSON) {
 //Seleccionamos el elemento
 const propiedadesDiv = document.querySelector(".propiedades");
 //Dibujamos el html
-propiedadesDiv.innerHTML = html;
+propiedadesDiv.innerHTML = textoDelDiv;
